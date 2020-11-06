@@ -1,0 +1,5 @@
+com\example\demo\DemoApplication.class
+com\example\demo\Services\Classes\Repository\DirectorRepo.class
+com\example\demo\Services\ServiceRealization\DirectorService.class
+com\example\demo\Controllers\DirectorController.class
+com\example\demo\Services\Classes\DirectorClass\Director.class

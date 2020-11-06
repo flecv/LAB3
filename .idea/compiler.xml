@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="directorServer" />
+        <module name="client" />
+        <module name="server" />
+        <module name="orderServer" />
+        <module name="customerServer" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="client" target="14" />
+      <module name="customerServer" target="14" />
+      <module name="directorServer" target="14" />
+      <module name="L3" target="1.5" />
+      <module name="orderServer" target="14" />
+      <module name="server" target="14" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="client" options="-parameters" />
+      <module name="customerServer" options="-parameters" />
+      <module name="directorServer" options="-parameters" />
+      <module name="orderServer" options="-parameters" />
+      <module name="server" options="-parameters" />
+    </option>
+  </component>
+</project>
