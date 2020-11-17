@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderserver
+spec:
+  selector:
+    matchLabels:
+      app: orderserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: orderserver
+    spec:
+      containers:
+        - name: orderserver
+          image: flecv/orderserver:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8087
+              name: orderserver

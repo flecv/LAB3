@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customerserver
+spec:
+  selector:
+    matchLabels:
+      app: custoomerserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: customerserver
+    spec:
+      containers:
+        - name: customerserver
+          image: flecv/customerserver:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8082
+              name: customerserver
