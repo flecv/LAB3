@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: director-ser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: director-ser
+  template:
+    metadata:
+      labels:
+        app: director-ser
+    spec:
+      containers:
+        - image: director-ser
+          name: director-ser
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8084

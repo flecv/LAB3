@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: director-ser
+spec:
+  type: ClusterIP
+  ports:
+    - name: "director-ser"
+      port: 8084
+      targetPort: 8084
+  selector:
+    app: director-ser

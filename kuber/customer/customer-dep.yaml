@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-ser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-ser
+  template:
+    metadata:
+      labels:
+        app: customer-ser
+    spec:
+      containers:
+        - image: customer-ser
+          name: customer-ser
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082

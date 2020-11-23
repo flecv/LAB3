@@ -36,7 +36,7 @@ public class OrderController
     }*/
     private Customer getOrderCustomer(String customerId) {
 
-        String address = "http://localhost:8082/customer/";
+        String address = "http://customer-ser:8082/customer/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("customerId", customerId);
 
@@ -46,7 +46,7 @@ public class OrderController
     }
     private Director getOrderDirector(String directorName) {
 
-        String address = "http://localhost:8084/director/get";
+        String address = "http://director-ser:8084/director/get";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("directorName", directorName);
 
@@ -56,7 +56,7 @@ public class OrderController
     }
     public Order getOrder(UUID orderId) {
 
-        String address = "http://localhost:8087/order/";
+        String address = "http://order-ser:8087/order/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("orderId", orderId);
 
@@ -91,7 +91,7 @@ public class OrderController
     @PostMapping
     public ResponseEntity<Order> create(@RequestParam int customerRequest, @RequestParam String customerId, @RequestParam String directorName)
     {
-        String address = "http://localhost:8087/order/";
+        String address = "http://order-ser:8087/order/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("customerRequest", customerRequest).
                 queryParam("customerId", customerId).
@@ -129,7 +129,7 @@ public class OrderController
             System.out.println("In decision making, accepted version");
             order.setStatus(OrderStatus.isAccepted);
         }
-        String address = "http://localhost:8087/order/";
+        String address = "http://order-ser:8087/order/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("orderId", order.getOrderId()).
                 queryParam("status", order.getStatus());
@@ -147,7 +147,7 @@ public class OrderController
             System.out.println("In accepted status after update information");
             System.out.println(director.toString());
             order.setStatus(OrderStatus.isAccepted);
-            String address1 = "http://localhost:8084/director/";
+            String address1 = "http://director-ser:8084/director/";
             UriComponentsBuilder builder1 = UriComponentsBuilder.fromHttpUrl(address1).
                     queryParam("request", order.getRequest()).
                     queryParam("status", k);
@@ -168,7 +168,7 @@ public class OrderController
             order.setDirectorName(director.getName());*/
             //updateDirectorInformation("Konrad", director.getWoodAmount(), director.getBalance());
             System.out.println(director.toString());
-            String address1 = "http://localhost:8084/director/";
+            String address1 = "http://director-ser:8084/director/";
             UriComponentsBuilder builder1 = UriComponentsBuilder.fromHttpUrl(address1).
                     queryParam("request", order.getRequest()).
                     queryParam("status", k);

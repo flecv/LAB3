@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: directordb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: directordb
+  template:
+    metadata:
+      labels:
+        app: directordb
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: director
+            - name: POSTGRES_PASSWORD
+              value: "123456qw"
+            - name: POSTGRES_USER
+              value: postgres1
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          name: directordb
+          ports:
+            - containerPort: 5432

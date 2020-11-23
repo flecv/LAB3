@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping(value = "/director")
 public class DirectorController {
     private final RestTemplate template = new RestTemplate();
-    private final String address = "http://localhost:8084/director/";
+    private final String address = "http://director-ser:8084/director/";
 
     @PostMapping()
     public ResponseEntity<Director> create(@RequestParam String name, @RequestParam int woodAmount, @RequestParam int balance) {
@@ -30,7 +30,7 @@ public class DirectorController {
     @GetMapping(value = "/get")
     public ResponseEntity<String> report() {
 
-        String address = "http://localhost:8084/director/get";
+        String address = "http://director-ser:8084/director/get";
         /*UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("directorName", directorName);*/
         HttpEntity<String> response = template.exchange(address, HttpMethod.GET, null, String.class);
@@ -40,7 +40,7 @@ public class DirectorController {
     @GetMapping(value="/report")
     public ResponseEntity<String> info()
     {
-        String address = "http://localhost:8084/director/report";
+        String address = "http://director-ser:8084/director/report";
         System.out.println("In mediator director server before response");
         HttpEntity<String> response = template.exchange(address, HttpMethod.GET, null, String.class);
         System.out.println("In mediator director server after response");

@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CustomerController
 {
     private final RestTemplate template = new RestTemplate();
-    private final String address = "http://localhost:8082/customer/";
+    private final String address = "http://customer-ser:8082/customer/";
 
     @PostMapping
     public ResponseEntity<Customer> create(@RequestParam String name, @RequestParam int age, @RequestParam int request)

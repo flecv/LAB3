@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orderdb
+  template:
+    metadata:
+      labels:
+        app: orderdb
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: orders
+            - name: POSTGRES_PASSWORD
+              value: "123456qw"
+            - name: POSTGRES_USER
+              value: postgres
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          name: orderdb
+          ports:
+            - containerPort: 5432

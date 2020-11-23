@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-ser
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-ser
+  template:
+    metadata:
+      labels:
+        app: order-ser
+    spec:
+      containers:
+        - image: order-dep
+          name: order-dep
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8087
