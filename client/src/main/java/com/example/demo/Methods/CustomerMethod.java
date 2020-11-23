@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class CustomerMethod {
-    final String address = "http://172.17.0.1:8082/customer/";
+    final String address = "http://localhost:8083/customer/";
     RestTemplate restTemp = new RestTemplate();
-    public void createCustomer()
+    public Customer createCustomer()
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("name", "Vigor").
@@ -23,27 +23,23 @@ public class CustomerMethod {
         System.out.println("Create new customer");
         HttpEntity<Customer> response = restTemp.exchange(builder.toUriString(), HttpMethod.POST, null, Customer.class);
         System.out.println(response.getBody());
-
-        System.out.println("Create new customer");
+        return response.getBody();
+        /*System.out.println("Create new customer");
         builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("name", "Savana").
                 queryParam("age", 50).
                 queryParam("request", 50);
         response = restTemp.exchange(builder.toUriString(),
                 HttpMethod.POST, null, Customer.class);
-        System.out.println(response.getBody());
+        System.out.println(response.getBody());*/
     }
 
-    public List<Customer> customerReport(UUID customerId)
+    public void customerReport(String customerId)
     {
-
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("customerId", customerId);
-        HttpEntity<List<Customer>> response = restTemp.exchange(builder.toUriString(),
-                HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Customer>>() {
-                });
+        HttpEntity<String> response = restTemp.exchange(builder.toUriString(),
+                HttpMethod.GET, null, String.class);
         System.out.println(response.getBody());
-        return response.getBody();
     }
 }

@@ -8,9 +8,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class DirectorMethod {
 
-    String address = "http://172.17.0.1:8082/director/";
+    String address = "http://localhost:8083/director/";
     RestTemplate restTemp = new RestTemplate();
-    public void createDirector() {
+    public Director createDirector() {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("name", "Konrad").
                 queryParam("woodAmount", 100).
@@ -19,12 +19,16 @@ public class DirectorMethod {
         System.out.println("Director create");
         HttpEntity<Director> response = restTemp.exchange(builder.toUriString(), HttpMethod.POST, null, Director.class);
         System.out.println("Director created");
+        System.out.println(response.getBody());
+        return response.getBody();
     }
 
     public void directorReport()
     {
+        String address = "http://localhost:8083/director/report";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address);
         System.out.println("Director report");
-        HttpEntity<String> response = restTemp.exchange(address, HttpMethod.GET, null, String.class);
+        HttpEntity<String> response = restTemp.exchange(builder.toUriString(), HttpMethod.GET, null, String.class);
         System.out.println(response.getBody());
     }
 }

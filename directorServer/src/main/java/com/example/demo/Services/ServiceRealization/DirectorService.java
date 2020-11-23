@@ -35,7 +35,9 @@ public class DirectorService
         Director director = repo.getDirectorByName("Konrad");
         int additionalBalance = request * 10;
         int balance = director.getBalance() + additionalBalance;
+        int woodAmount = director.getWoodAmount()-request;
         director.setBalance(balance);
+        director.setWoodAmount(woodAmount);
         repo.save(director);
     }
     public void woodControl(int newSupply)
@@ -49,17 +51,36 @@ public class DirectorService
     }
 
 
-    public Director updateDirectorInformation(int request)
+    public Director updateDirectorInformation(int request, int k)
     {
-        Director director = repo.getDirectorByName("Konrad");
-        balancing(request);
-        repo.save(director);
-        return director;
+        if (k==1) {
+            Director director = repo.getDirectorByName("Konrad");
+            balancing(request);
+            repo.save(director);
+            return director;
+        }
+        else
+        {
+            Director director = repo.getDirectorByName("Konrad");
+            Random random = new Random();
+            String report = director.toString();
+            System.out.println(report);
+            int sup = random.nextInt(request)+((int)request/2);
+            System.out.println("We need new supply. Leader will deliver "+sup+" amount of wood to us");
+            director.setWoodAmount(director.getWoodAmount() + sup);
+            repo.save(director);
+            return director;
+        }
     }
     public String directorReport()
     {
         Director director = repo.getDirectorByName("Konrad");
         String report = director.toString();
+        //System.out.println(director.getName());
         return report;
+    }
+    public Director getDirector(String directorName)
+    {
+        return  repo.getDirectorByName(directorName);
     }
 }

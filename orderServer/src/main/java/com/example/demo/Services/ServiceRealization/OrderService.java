@@ -20,14 +20,20 @@ public class OrderService {
     {
         this.repo=repo;
     }
-    public Order createOrder(int customerRequest, UUID customerId)
+    public Order createOrder(int customerRequest, String customerId, String directorName)
     {
-        Order order = new Order(customerRequest, customerId);
+        Order order = new Order(customerRequest, customerId, directorName);
         repo.save(order);
         return order;
     }
 
-    public List<Order> getOrderById(UUID orderId)
+    public void updateStatus(UUID id, OrderStatus newStatus)
+    {
+        Order order = repo.getByOrderId(id);
+        order.setStatus(newStatus);
+        repo.save(order);
+    }
+    public Order getOrderById(UUID orderId)
     {
         return repo.getByOrderId(orderId);
     }

@@ -23,14 +23,11 @@ public class CustomerController
     @PostMapping
     public ResponseEntity<Customer> create(@RequestParam String name, @RequestParam int age, @RequestParam int request)
     {
-        if (service.getCustomerByName(name) != null)
-            return ResponseEntity.ok(service.getCustomerByName(name));
-        else
-            return ResponseEntity.ok(service.createCustomer(name,age, request));
+            return ResponseEntity.ok(service.createCustomer(name, age, request));
     }
     @GetMapping
-    public ResponseEntity<List<Customer>> report()
+    public ResponseEntity<Customer> getCustomer(@RequestParam String customerId)
     {
-        return ResponseEntity.ok(service.customerReport());
+        return ResponseEntity.ok(service.getCustomer(customerId));
     }
 }

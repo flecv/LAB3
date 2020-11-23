@@ -2,12 +2,11 @@ package com.example.demo.Services.Classes.CustomerClass;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-import java.util.UUID;
 
 @EnableAutoConfiguration
 public class Customer {
 
-    private UUID customerId;
+    private String customerId;
     private String name;
     private int age;
     private int request;
@@ -18,6 +17,10 @@ public class Customer {
         this.name = name;
         this.age = age;
         this.request = request;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public String getName() {
@@ -44,17 +47,14 @@ public class Customer {
         this.request = request;
     }
 
-    public UUID getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
-        this.customerId = customerId;
-    }
 
     @Override
     public String toString()
     {
-        return "Customer`s name is " + name + ". His/her age is "+age+". His/her request is "+request;
+        return "Customer`s name is " + name + ". His/her age is "+age+". His/her request is "+request+". Customer Id is "+customerId;
     }
 }

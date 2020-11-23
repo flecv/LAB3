@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @EnableAutoConfiguration
 public class Director {
-    private UUID directorId;
+    //private UUID directorId;
     private String name;
     private int woodAmount;
     private int balance;
@@ -17,19 +17,19 @@ public class Director {
 
     public Director(String name, int woodAmount, int balance) {
         this.name = name;
-        directorId=UUID.randomUUID();
+        //directorId=UUID.randomUUID();
         this.woodAmount=woodAmount;
         this.balance=balance;
     }
 
-    public UUID getDirectorId() {
+    /*public UUID getDirectorId() {
         return directorId;
     }
 
     public void setDirectorId(UUID directorId) {
         this.directorId = directorId;
     }
-
+*/
     public String getName() {
         return name;
     }

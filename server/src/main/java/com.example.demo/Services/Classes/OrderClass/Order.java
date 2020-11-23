@@ -5,27 +5,27 @@ import java.util.UUID;
 
 public class Order
 {
-    private UUID orderId;
+    private String orderId;
     private int request;
-    private UUID customerId;
-    private UUID directorId;
+    private String customerId;
+    private String directorName;
     private OrderStatus status;
 
     public Order() {
     }
 
-    public Order(int request, UUID customerId) {
-        this.orderId = UUID.randomUUID();
+    public Order(int request, String customerId) {
+        this.orderId = UUID.randomUUID().toString();
         this.customerId = customerId;
         this.request = request;
         this.status = OrderStatus.isPreparing;
     }
 
-    public UUID getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(UUID orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -37,20 +37,20 @@ public class Order
         this.request = request;
     }
 
-    public UUID getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(UUID customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
-    public UUID getDirectorId() {
-        return directorId;
+    public String getDirectorName() {
+        return directorName;
     }
 
-    public void setDirectorId(UUID directorId) {
-        this.directorId = directorId;
+    public void setDirectorName(String directorName) {
+        this.directorName = directorName;
     }
 
     public OrderStatus getStatus() {

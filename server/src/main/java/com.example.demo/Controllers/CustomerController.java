@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CustomerController
 {
     private final RestTemplate template = new RestTemplate();
-    private final String address = "http://customerserver:8082/customer/";
+    private final String address = "http://localhost:8082/customer/";
 
     @PostMapping
     public ResponseEntity<Customer> create(@RequestParam String name, @RequestParam int age, @RequestParam int request)
@@ -28,7 +28,7 @@ public class CustomerController
                 queryParam("request", request);
         HttpEntity<Customer> response = template.exchange(builder.toUriString(), HttpMethod.POST, null, Customer.class);
         return ResponseEntity.ok(response.getBody());}
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<Customer>> report(@RequestParam UUID customerId)
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
@@ -36,6 +36,14 @@ public class CustomerController
         HttpEntity<List<Customer>> response = template.exchange(builder.toUriString(), HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<Customer>>() {
                 });
+        return ResponseEntity.ok(response.getBody());
+    }*/
+    @GetMapping
+    public ResponseEntity<Customer> getCustomer(@RequestParam String customerId)
+    {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
+                queryParam("id", customerId);
+        HttpEntity<Customer> response = template.exchange(builder.toUriString(), HttpMethod.GET, null, Customer.class);
         return ResponseEntity.ok(response.getBody());
     }
 }

@@ -1,6 +1,6 @@
 com\example\demo\Services\Classes\OrderClass\OrderStatus.class
+com\example\demo\Services\ServiceRealization\OrderService.class
 com\example\demo\DemoApplication.class
 com\example\demo\Services\Classes\OrderClass\repo\OrderRepo.class
 com\example\demo\Services\Classes\OrderClass\Order.class
-com\example\demo\Services\ServiceRealisation\OrderService.class
 com\example\demo\Controllers\OrderController.class

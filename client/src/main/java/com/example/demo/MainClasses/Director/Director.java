@@ -3,18 +3,10 @@ package com.example.demo.MainClasses.Director;
 import java.util.UUID;
 
 public class Director {
-    private UUID id;
     private String name;
     private int woodAmount;
     private int balance;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

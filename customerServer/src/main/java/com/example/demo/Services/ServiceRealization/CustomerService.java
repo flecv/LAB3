@@ -20,13 +20,13 @@ public class CustomerService {
         return customer;
     }
 
-    public Customer getCustomerByName(String name)
+    /*public Customer getCustomerByName(String name)
     {
         return repo.getCustomerByName(name);
-    }
-    public List<Customer> customerReport()
+    }*/
+    public Customer getCustomer(String customerId)
     {
-        return (List<Customer>) repo.findAll();
+        return  repo.getCustomerById(customerId);
     }
 
 }

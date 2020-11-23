@@ -24,30 +24,31 @@ public class OrderController
 {
     private final RestTemplate template = new RestTemplate();
 
-    private Director updateDirectorInformation(int request, int balance)
+    /*private Director updateDirectorInformation(String directorName, int request, int balance)
     {
-        String address = "http://directorserver:8084/director/";
+        String address = "http://localhost:8084/director/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
+                queryParam("directorName", directorName).
                 queryParam("request", request).
                 queryParam("balance", balance);
         HttpEntity<Director> response = template.exchange(builder.toUriString(), HttpMethod.PUT, null, Director.class);
         return response.getBody();
-    }
-    private Customer getOrderCustomer(UUID customerId) {
+    }*/
+    private Customer getOrderCustomer(String customerId) {
 
-        String address = "http://clientserver:8082/customer/";
+        String address = "http://localhost:8082/customer/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
-                queryParam("id", customerId);
+                queryParam("customerId", customerId);
 
         HttpEntity<Customer> response = template.exchange(builder.toUriString(), HttpMethod.GET, null,
                 Customer.class);
         return response.getBody();
     }
-    private Director getOrderDirector(UUID directorId) {
+    private Director getOrderDirector(String directorName) {
 
-        String address = "http://directorserver:8084/director/";
+        String address = "http://localhost:8084/director/get";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
-                queryParam("id", directorId);
+                queryParam("directorName", directorName);
 
         HttpEntity<Director> response = template.exchange(builder.toUriString(), HttpMethod.GET, null,
                 Director.class);
@@ -55,18 +56,12 @@ public class OrderController
     }
     public Order getOrder(UUID orderId) {
 
-        String address = "http://orderserver:8087/order/";
+        String address = "http://localhost:8087/order/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
                 queryParam("orderId", orderId);
 
-        HttpEntity<List<Order>> response = template.exchange(builder.toUriString(), HttpMethod.GET, null,
-                new ParameterizedTypeReference<>() {
-                });
-        List<Order> list = response.getBody();
-        if (list.isEmpty())
-            return null;
-        else
-            return list.get(0);
+        HttpEntity<Order> response = template.exchange(builder.toUriString(), HttpMethod.GET, null, Order.class);
+        return response.getBody();
 
     }
 
@@ -94,25 +89,35 @@ public class OrderController
 
 
     @PostMapping
-    public ResponseEntity<Order> create(@RequestParam int request, @RequestParam UUID customerId)
+    public ResponseEntity<Order> create(@RequestParam int customerRequest, @RequestParam String customerId, @RequestParam String directorName)
     {
-        String address = "http://orderserver:8087/order/";
+        String address = "http://localhost:8087/order/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
-                queryParam("request", request).
-                queryParam("customerId", customerId);
+                queryParam("customerRequest", customerRequest).
+                queryParam("customerId", customerId).
+                queryParam("directorName", directorName);
         HttpEntity<Order> orderResponse = template.exchange(builder.toUriString(), HttpMethod.POST, null, Order.class);
+        System.out.println(customerId+" "+directorName);
         return ResponseEntity.ok(orderResponse.getBody());
     }
 
     @PutMapping
-    private ResponseEntity<Boolean> updateInformation(@RequestParam UUID orderId)
+    private ResponseEntity<Boolean> updateInformation(@RequestParam UUID orderId, @RequestParam String customerId, @RequestParam String directorName)
     {
+        System.out.println("In put mapping");
         Order order = getOrder(orderId);
+        System.out.println(order.toString());
         if (order == null)
             return ResponseEntity.ok(Boolean.FALSE);
         System.out.println(order);
-        Customer customer = getOrderCustomer(order.getCustomerId());
-        Director director = getOrderDirector(order.getDirectorId());
+        System.out.println("Before creation customer and director");
+        Customer customer = getOrderCustomer(customerId);
+        System.out.println(customer.toString());
+        System.out.println("Between creations");
+        Director director = getOrderDirector("Konrad");
+        System.out.println("After creation customer and director");
+        System.out.println(director.toString());
+        System.out.println(director.getWoodAmount()+" "+customer.getRequest());
         if (director.getWoodAmount() < customer.getRequest())
         {
             System.out.println("In decision making, rejected version");
@@ -124,35 +129,50 @@ public class OrderController
             System.out.println("In decision making, accepted version");
             order.setStatus(OrderStatus.isAccepted);
         }
-        String address = "http://orderserver:8087/order/";
+        String address = "http://localhost:8087/order/";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
-                queryParam("orderId", order.getOrderId());
+                queryParam("orderId", order.getOrderId()).
+                queryParam("status", order.getStatus());
         HttpEntity<Order> response = template.exchange(builder.toUriString(), HttpMethod.PUT, null, Order.class);
-        order = response.getBody();
+        //order = response.getBody();
         if(order.getStatus()==OrderStatus.isAccepted)
         {
+            int k = 1;
             System.out.println("We can sell you this amount of wood");
             director.setWoodAmount(director.getWoodAmount() - customer.getRequest());
             director.setBalance(director.getBalance() + 10 * customer.getRequest());
-
-            order.setDirectorId(director.getDirectorId());
-            updateDirectorInformation(director.getWoodAmount(), director.getBalance());
+            System.out.println("In accepted status before update information");
+            //order.setDirectorName(director.getName());
+            //updateDirectorInformation("Konrad", director.getWoodAmount(), director.getBalance());
+            System.out.println("In accepted status after update information");
+            System.out.println(director.toString());
             order.setStatus(OrderStatus.isAccepted);
+            String address1 = "http://localhost:8084/director/";
+            UriComponentsBuilder builder1 = UriComponentsBuilder.fromHttpUrl(address1).
+                    queryParam("request", order.getRequest()).
+                    queryParam("status", k);
+            HttpEntity<Order> response1 = template.exchange(builder1.toUriString(), HttpMethod.PUT, null, Order.class);
             return ResponseEntity.ok(order.getStatus() == OrderStatus.isAccepted);
         }
         else
         {
+            int k = 2;
             System.out.println("We can not sell you this amount of wood.");
             order.setStatus(OrderStatus.isRejected);
             System.out.println(customer.toString());
             System.out.println(director.toString());
-            Random random = new Random();
+            /*Random random = new Random();
             int sup = random.nextInt(customer.getRequest())+((int)customer.getRequest()/2);
             System.out.println("We need new supply. Leader will deliver "+sup+" amount of wood to us");
             director.setWoodAmount(director.getWoodAmount() + sup);
-            order.setDirectorId(director.getDirectorId());
-            updateDirectorInformation(director.getWoodAmount(), director.getBalance());
+            order.setDirectorName(director.getName());*/
+            //updateDirectorInformation("Konrad", director.getWoodAmount(), director.getBalance());
             System.out.println(director.toString());
+            String address1 = "http://localhost:8084/director/";
+            UriComponentsBuilder builder1 = UriComponentsBuilder.fromHttpUrl(address1).
+                    queryParam("request", order.getRequest()).
+                    queryParam("status", k);
+            HttpEntity<Order> response1 = template.exchange(builder1.toUriString(), HttpMethod.PUT, null, Order.class);
             return ResponseEntity.ok(order.getStatus() == OrderStatus.isRejected);
         }
     }

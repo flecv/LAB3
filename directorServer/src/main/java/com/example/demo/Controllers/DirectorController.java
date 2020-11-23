@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/director")
 public class DirectorController {
@@ -21,16 +23,27 @@ public class DirectorController {
     {
         return ResponseEntity.ok(service.createDirector(name, woodAmount, balance));
     }
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<String> report()
     {
+        System.out.println("Director get mapping");
+        return ResponseEntity.ok(service.directorReport());
+    }*/
+
+    @GetMapping(value = "get")
+    public ResponseEntity<Director> get(@RequestParam String directorName) {
+        return ResponseEntity.ok(service.getDirector(directorName));
+    }
+    @GetMapping(value = "report")
+    public ResponseEntity<String> report()
+    {
+        System.out.println("In director server value report");
         return ResponseEntity.ok(service.directorReport());
     }
-
     @PutMapping
-    public ResponseEntity<Director> updateInfo(@RequestParam int request)
+    public ResponseEntity<Director> updateInfo(@RequestParam int request, @RequestParam int status)
     {
-        return ResponseEntity.ok(service.updateDirectorInformation(request));
+        return ResponseEntity.ok(service.updateDirectorInformation(request, status));
     }
 }
 

@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderRepo extends CrudRepository<Order, String> {
-    List<Order> getByOrderId(UUID id);
+    Order getByOrderId(UUID id);
 }

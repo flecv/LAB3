@@ -8,11 +8,29 @@ import java.util.UUID;
 public class Order {
     private UUID orderId;
     private int request;
+    private String customerId;
+    private String directorName;
     private OrderStatus status = OrderStatus.isPreparing;
 
     public Order()
     {
 
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getDirectorName() {
+        return directorName;
+    }
+
+    public void setDirectorId(String directorName) {
+        this.directorName = directorName;
     }
 
     public Order(int request) {
@@ -46,7 +64,7 @@ public class Order {
     @Override
     public String toString()
     {
-        return "Customer request is "+request;
+        return "Customer request is "+request+" . Order id is "+orderId;
     }
 
 

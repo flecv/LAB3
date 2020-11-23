@@ -13,26 +13,29 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.UUID;
 
 public class OrderMethod {
-    final String address = "http://172.17.0.1:8082/order/";
+    final String address = "http://localhost:8083/order/";
     RestTemplate restTemp = new RestTemplate();
-    public Order createOrder(UUID customerId,int request)
+    public Order createOrder(String customerId,int customerRequest, String directorName)
     {
+        System.out.println("Before builder");
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
-                queryParam("request", request).
-                queryParam("customerId", customerId);
-
+                queryParam("customerId", customerId).
+                queryParam("customerRequest", customerRequest).
+                queryParam("directorName", directorName);
         HttpEntity<Order> response = restTemp.exchange(builder.toUriString(),
                 HttpMethod.POST, null, Order.class);
         return response.getBody();
     }
-    public void completeOrder(UUID orderId) {
+    public void completeOrder(String orderId, String customerId, String directorName) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(address).
-                queryParam("orderId", orderId);
+                queryParam("orderId", orderId).
+                queryParam("customerId", customerId).
+                queryParam("directorName", directorName);
         HttpEntity<Boolean> response = restTemp.exchange(builder.toUriString(), HttpMethod.PUT, null, Boolean.class);
-        if (response.getBody() == Boolean.TRUE)
+        /*if (response.getBody() == Boolean.TRUE)
             System.out.println("We can complete this order");
         else
-            System.out.println("We can not complete this order");
+            System.out.println("We can not complete this order");*/
     }
 
 }
